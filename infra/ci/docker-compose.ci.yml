@@ -1,0 +1,51 @@
+# Jenkins + SonarQube en la laptop (solo cuando se usan)
+# Levantar:  docker compose -f infra/ci/docker-compose.ci.yml up -d --build
+# Apagar:    docker compose -f infra/ci/docker-compose.ci.yml down
+#
+# Jenkins:   http://localhost:8080
+# SonarQube: http://localhost:9000  (usuario inicial admin / admin)
+
+name: pni-hce-ci
+
+services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile.jenkins
+    ports:
+      - "8080:8080"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    environment:
+      JAVA_OPTS: "-Xmx1g"
+    depends_on:
+      - sonarqube
+
+  sonarqube:
+    image: sonarqube:community
+    ports:
+      - "9000:9000"
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://sonar-db:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    volumes:
+      - sonar_data:/opt/sonarqube/data
+      - sonar_extensions:/opt/sonarqube/extensions
+    depends_on:
+      - sonar-db
+
+  sonar-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: sonar
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+    volumes:
+      - sonar_db:/var/lib/postgresql/data
+
+volumes:
+  jenkins_home:
+  sonar_data:
+  sonar_extensions:
+  sonar_db:

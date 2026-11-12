@@ -18,7 +18,7 @@
 | Búsqueda semántica (opcional) | pgvector + modelo de embeddings local | Sin enviar datos clínicos fuera de la plataforma |
 | Frontend | Angular + PrimeNG | Experiencia previa del equipo |
 | Contenedores | Docker Compose | Suficiente para una sola VM |
-| CI/CD | GitHub Actions | Gratis en repositorio público |
+| CI/CD | Jenkins + SonarQube (local) y GitHub Actions | Pipeline y calidad sin costo (ADR-0006) |
 | Pruebas | JUnit 5, Testcontainers, Playwright, k6 | Unitarias, integración, E2E y carga |
 | Nube | AWS EC2 (us-east-1) | Créditos de cuenta nueva; producción solo 2-3 días |
 | DNS / CDN | Cloudflare (plan gratuito) | DNS, CDN y SSL sin costo |

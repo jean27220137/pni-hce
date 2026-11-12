@@ -38,6 +38,13 @@ Cada servicio tiene su `SPEC.md` (desarrollo basado en especificaciones, SDD): s
 | Pruebas | Laptop (perfil `qa`) y GitHub Actions | automático en cada push a `develop` |
 | Producción | AWS EC2, solo de D-2 a D+1 de la presentación | aprobación manual sobre `main` |
 
+## CI/CD
+
+- **Jenkins** (`Jenkinsfile`): build, tests, cobertura, SonarQube, Quality Gate y despliegue manual desde `main`.
+- **SonarQube**: calidad y cobertura.
+- Ambos corren en la laptop: ver `infra/ci/README.md`.
+- **GitHub Actions**: verificación rápida en la nube en cada push.
+
 ## Ramas
 
 `feature/*` → `develop` (pruebas) → `main` (producción)

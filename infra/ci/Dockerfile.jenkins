@@ -1,0 +1,19 @@
+# Jenkins con Java 21, Maven y Node para compilar backend y frontend de PNI-HCE
+FROM jenkins/jenkins:lts-jdk21
+
+USER root
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends maven nodejs npm postgresql-client \
+ && rm -rf /var/lib/apt/lists/*
+USER jenkins
+
+# Plugins necesarios para el Jenkinsfile
+RUN jenkins-plugin-cli --plugins \
+    git \
+    workflow-aggregator \
+    pipeline-stage-view \
+    sonar \
+    junit \
+    jacoco \
+    credentials-binding \
+    timestamps
