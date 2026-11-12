@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+
+jobs:
+  validar-infra:
+    name: Validar esquema SQL
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: pnihce
+          POSTGRES_USER: pnihce
+          POSTGRES_PASSWORD: pnihce_ci
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U pnihce" --health-interval 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Aplicar scripts de inicialización
+        env:
+          PGPASSWORD: pnihce_ci
+        run: |
+          for f in infra/postgres/init/*.sql; do
+            echo "Aplicando $f"
+            psql -h localhost -U pnihce -d pnihce -v ON_ERROR_STOP=1 -f "$f"
+          done
+      - name: Verificar particionamiento
+        env:
+          PGPASSWORD: pnihce_ci
+        run: |
+          psql -h localhost -U pnihce -d pnihce -v ON_ERROR_STOP=1 -c \
+            "INSERT INTO mpi.vinculo_paciente (dni, establecimiento_id, id_local, primera_atencion, ultima_atencion)
+             SELECT '71234567', id, 'TEST-1', current_date, current_date FROM mpi.establecimiento LIMIT 1;"
+          psql -h localhost -U pnihce -d pnihce -t -c \
+            "SELECT tableoid::regclass FROM mpi.vinculo_paciente WHERE dni='71234567';" | grep -q vinculo_paciente_p2
+
+  # Se agregarán aquí: build y tests de cada servicio (Maven + Testcontainers),
+  # build del frontend y E2E con Playwright.

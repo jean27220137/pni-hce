@@ -1,0 +1,38 @@
+# Ambiente de DESARROLLO (laptop)
+# Uso: docker compose -f infra/docker-compose.dev.yml up -d
+# Los servicios Java se ejecutan desde el IDE con el perfil "dev" y se conectan a estos contenedores.
+
+name: pni-hce-dev
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: pnihce
+      POSTGRES_USER: pnihce
+      POSTGRES_PASSWORD: pnihce_dev   # solo desarrollo
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pnihce -d pnihce"]
+      interval: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru"]
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      retries: 10
+
+volumes:
+  pg_data:
+
+# La réplica de lectura (streaming replication) se agrega en docker-compose.qa.yml y prod,
+# para no complicar el ambiente de desarrollo.
