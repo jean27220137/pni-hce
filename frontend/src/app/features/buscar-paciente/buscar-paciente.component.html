@@ -1,0 +1,84 @@
+<div class="page-header">
+  <h1>Buscar Paciente</h1>
+  <p>Consulta en qué establecimientos tiene historial clínico un paciente por su DNI.</p>
+</div>
+
+<div class="search-box">
+  <div class="dni-field">
+    <label for="dni">DNI del paciente</label>
+    <input
+      pInputText
+      id="dni"
+      type="text"
+      maxlength="8"
+      placeholder="12345678"
+      [(ngModel)]="dni"
+      (keydown.enter)="buscar()"
+    />
+  </div>
+  <p-button
+    label="Buscar"
+    icon="pi pi-search"
+    [disabled]="estado() === 'loading'"
+    (onClick)="buscar()"
+  />
+  @if (estado() !== 'idle') {
+    <p-button
+      label="Limpiar"
+      icon="pi pi-times"
+      severity="secondary"
+      [outlined]="true"
+      (onClick)="limpiar()"
+    />
+  }
+</div>
+
+@if (estado() === 'loading') {
+  <div class="spinner-wrapper">
+    <p-progressspinner strokeWidth="4" />
+  </div>
+}
+
+@if (estado() === 'error') {
+  <p-message severity="error">{{ errorMsg() }}</p-message>
+}
+
+@if (estado() === 'ok' && resultado(); as res) {
+  <div class="resultados-header">
+    <h2>Resultados para DNI {{ res.dni }}</h2>
+    <span [class]="'fuente-badge fuente-' + res.fuente">
+      <i [class]="res.fuente === 'cache' ? 'pi pi-bolt' : 'pi pi-database'"></i>
+      {{ res.fuente === 'cache' ? 'Desde caché' : 'Desde base de datos' }}
+    </span>
+  </div>
+
+  @if (res.establecimientos.length === 0) {
+    <div class="empty-state">
+      <i class="pi pi-inbox"></i>
+      <p>No se encontraron establecimientos con historial para este paciente.</p>
+    </div>
+  } @else {
+    <div class="establecimientos-grid">
+      @for (est of res.establecimientos; track est.codigoRenipress) {
+        <div class="est-card">
+          <div class="est-header">
+            <span class="est-nombre">{{ est.nombre }}</span>
+            <p-tag
+              [value]="est.tipo"
+              [severity]="tipoSeverity[est.tipo] ?? 'info'"
+            />
+          </div>
+          <div class="est-meta">
+            <p-tag [value]="sectorLabel[est.sector] ?? est.sector" severity="secondary" />
+            <p-tag [value]="est.codigoRenipress" severity="secondary" />
+          </div>
+          <div class="est-detalle">
+            <span><i class="pi pi-id-card"></i> ID local: <strong>{{ est.idLocal }}</strong></span>
+            <span><i class="pi pi-calendar"></i> Última atención: <strong>{{ est.ultimaAtencion }}</strong></span>
+            <span><i class="pi pi-link"></i> <a [href]="est.fhirBaseUrl" target="_blank" rel="noopener">{{ est.fhirBaseUrl }}</a></span>
+          </div>
+        </div>
+      }
+    </div>
+  }
+}

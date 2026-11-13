@@ -1,0 +1,26 @@
+<div class="layout-container">
+  <header class="layout-topbar">
+    <a class="logo" routerLink="/">
+      <i class="pi pi-heart-fill"></i>
+      PNI-HCE
+    </a>
+    <nav>
+      <a routerLink="/buscar" routerLinkActive="active">
+        <i class="pi pi-search"></i> Buscar Paciente
+      </a>
+      <a routerLink="/establecimientos" routerLinkActive="active">
+        <i class="pi pi-building"></i> Establecimientos
+      </a>
+    </nav>
+    <span class="spacer"></span>
+    <span class="badge-sistema">Nodo Sur · Ayacucho</span>
+  </header>
+
+  <main class="layout-main">
+    <router-outlet />
+  </main>
+
+  <footer class="layout-footer">
+    PNI-HCE &mdash; Plataforma de Interoperabilidad de HCE &mdash; UNSCH 2026
+  </footer>
+</div>
