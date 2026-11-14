@@ -11,6 +11,14 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(AccesoDenegadoException.class)
+    public ResponseEntity<ProblemDetail> handleAccesoDenegado(AccesoDenegadoException ex) {
+        ProblemDetail pd = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, ex.getMessage());
+        pd.setType(URI.create("https://pnihce.unsch.edu.pe/errors/consentimiento-requerido"));
+        pd.setTitle("Consentimiento requerido");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(pd);
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<ProblemDetail> handleConstraintViolation(ConstraintViolationException ex) {
         String detail = ex.getConstraintViolations().stream()

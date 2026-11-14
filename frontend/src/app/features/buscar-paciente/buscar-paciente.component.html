@@ -52,6 +52,15 @@
     </span>
   </div>
 
+  <div class="historia-link">
+    <p-button
+      label="Ver historia clínica completa"
+      icon="pi pi-file-o"
+      severity="success"
+      [routerLink]="['/historia', res.dni]"
+    />
+  </div>
+
   @if (res.establecimientos.length === 0) {
     <div class="empty-state">
       <i class="pi pi-inbox"></i>

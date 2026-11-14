@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="1 — MPI :8081" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="mpi"/>
+    <option name="SPRING_BOOT_MAIN_CLASS" value="pe.edu.unsch.pnihce.mpi.MpiApplication"/>
+    <option name="VM_PARAMETERS" value="-Dspring.profiles.active=dev"/>
+    <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$"/>
+    <option name="PROGRAM_PARAMETERS" value=""/>
+    <envs/>
+    <method v="2">
+      <option name="Make" enabled="true"/>
+    </method>
+  </configuration>
+</component>

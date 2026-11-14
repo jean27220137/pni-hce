@@ -9,10 +9,10 @@ node_modules/
 dist/
 .angular/
 
-# IDE
+# IDE — carpetas de proyecto personales (no compartir)
 .idea/
-.vscode/
 *.iml
+# .vscode/ se comparte (launch.json + extensions.json están en el repo)
 
 # Entorno y secretos
 .env

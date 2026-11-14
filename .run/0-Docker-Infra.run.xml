@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="0 — Docker Infra (postgres+redis+simulators)" type="DockerComposeRunConfigurationType" factoryName="Docker-compose">
+    <DockerComposeRunConfigurationOptions>
+      <option name="sourceFilePath" value="$PROJECT_DIR$/infra/docker-compose.dev.yml"/>
+      <option name="services">
+        <list>
+          <option value="postgres"/>
+          <option value="redis"/>
+          <option value="posta-adapter"/>
+          <option value="clinica-adapter"/>
+        </list>
+      </option>
+    </DockerComposeRunConfigurationOptions>
+    <method v="2"/>
+  </configuration>
+</component>

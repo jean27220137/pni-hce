@@ -18,7 +18,7 @@ pipeline {
 
   environment {
     // Servicios Java que ya tienen pom.xml (se detectan solos)
-    SERVICIOS = 'services/mpi services/fhir services/consent services/audit services/gateway'
+    SERVICIOS = 'services/mpi services/consent services/audit services/gateway'
   }
 
   stages {

@@ -1,0 +1,77 @@
+<div class="page-header">
+  <h1>Registrar Consentimiento</h1>
+  <p>Registra o revoca el consentimiento de un paciente para el acceso a su historia clínica.</p>
+</div>
+
+<div class="consent-form">
+  <div class="field">
+    <label for="dniConsent">DNI del paciente</label>
+    <input
+      pInputText
+      id="dniConsent"
+      type="text"
+      maxlength="8"
+      placeholder="12345678"
+      [(ngModel)]="dni"
+    />
+  </div>
+
+  <div class="field">
+    <label>Acción</label>
+    <p-selectbutton
+      [options]="estadoOpciones"
+      [(ngModel)]="estadoSeleccionado"
+      optionLabel="label"
+      optionValue="value"
+    />
+  </div>
+
+  <div class="field">
+    <label for="origen">Establecimiento origen (opcional)</label>
+    <input
+      pInputText
+      id="origen"
+      type="text"
+      placeholder="POSTA0001"
+      [(ngModel)]="establecimientoOrigen"
+    />
+  </div>
+
+  <div class="field">
+    <label for="obs">Observación (opcional)</label>
+    <textarea
+      pTextarea
+      id="obs"
+      rows="3"
+      placeholder="Paciente firmó formulario F-001..."
+      [(ngModel)]="observacion"
+    ></textarea>
+  </div>
+
+  <div class="form-actions">
+    <p-button
+      [label]="estadoSeleccionado() === 'GRANTED' ? 'Otorgar consentimiento' : 'Revocar consentimiento'"
+      [icon]="estadoSeleccionado() === 'GRANTED' ? 'pi pi-check' : 'pi pi-times'"
+      [severity]="estadoSeleccionado() === 'GRANTED' ? 'success' : 'danger'"
+      [disabled]="estado() === 'loading'"
+      (onClick)="registrar()"
+    />
+    @if (estado() !== 'idle') {
+      <p-button
+        label="Limpiar"
+        icon="pi pi-refresh"
+        severity="secondary"
+        [outlined]="true"
+        (onClick)="limpiar()"
+      />
+    }
+  </div>
+</div>
+
+@if (estado() === 'ok') {
+  <p-message severity="success">{{ mensajeOk() }}</p-message>
+}
+
+@if (estado() === 'error') {
+  <p-message severity="error">{{ errorMsg() }}</p-message>
+}

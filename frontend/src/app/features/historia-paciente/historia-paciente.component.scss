@@ -1,0 +1,53 @@
+.historia-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.historia-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  h2 { margin: 0; }
+
+  .dni-label {
+    font-size: 1rem;
+    color: var(--p-text-muted-color);
+  }
+}
+
+.panel-titulo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+
+  .est-nombre { font-weight: 600; }
+}
+
+.fhir-detalle p {
+  margin: 0.25rem 0;
+}
+
+.condiciones {
+  margin-top: 0.75rem;
+
+  ul {
+    margin: 0.25rem 0 0 1rem;
+    padding: 0;
+  }
+}
+
+.no-disponible {
+  color: var(--p-text-muted-color);
+  font-style: italic;
+}
+
+.centro-pantalla {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 3rem;
+}

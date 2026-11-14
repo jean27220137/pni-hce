@@ -1,0 +1,65 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "1 — MPI :8081",
+      "request": "launch",
+      "mainClass": "pe.edu.unsch.pnihce.mpi.MpiApplication",
+      "projectName": "mpi",
+      "vmArgs": "-Dspring.profiles.active=dev",
+      "cwd": "${workspaceFolder}/services/mpi",
+      "console": "internalConsole"
+    },
+    {
+      "type": "java",
+      "name": "2 — Audit :8082",
+      "request": "launch",
+      "mainClass": "pe.edu.unsch.pnihce.audit.AuditApplication",
+      "projectName": "audit",
+      "vmArgs": "-Dspring.profiles.active=dev",
+      "cwd": "${workspaceFolder}/services/audit",
+      "console": "internalConsole"
+    },
+    {
+      "type": "java",
+      "name": "3 — Consent :8083",
+      "request": "launch",
+      "mainClass": "pe.edu.unsch.pnihce.consent.ConsentApplication",
+      "projectName": "consent",
+      "vmArgs": "-Dspring.profiles.active=dev",
+      "cwd": "${workspaceFolder}/services/consent",
+      "console": "internalConsole"
+    },
+    {
+      "type": "java",
+      "name": "4 — Gateway :8080",
+      "request": "launch",
+      "mainClass": "pe.edu.unsch.pnihce.gateway.GatewayApplication",
+      "projectName": "gateway",
+      "vmArgs": "",
+      "cwd": "${workspaceFolder}/services/gateway",
+      "console": "internalConsole"
+    },
+    {
+      "type": "chrome",
+      "name": "5 — Frontend :4200",
+      "request": "launch",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/frontend/src",
+      "sourceMaps": true
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Todos los servicios (sin infra Docker)",
+      "configurations": [
+        "1 — MPI :8081",
+        "2 — Audit :8082",
+        "3 — Consent :8083",
+        "4 — Gateway :8080"
+      ],
+      "stopAll": true
+    }
+  ]
+}

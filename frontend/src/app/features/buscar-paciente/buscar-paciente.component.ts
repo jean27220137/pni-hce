@@ -1,5 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -27,7 +28,7 @@ const SECTOR_LABEL: Record<string, string> = {
 
 @Component({
   selector: 'app-buscar-paciente',
-  imports: [FormsModule, InputTextModule, ButtonModule, CardModule, TagModule, ProgressSpinnerModule, MessageModule],
+  imports: [FormsModule, RouterLink, InputTextModule, ButtonModule, CardModule, TagModule, ProgressSpinnerModule, MessageModule],
   templateUrl: './buscar-paciente.component.html',
   styleUrl: './buscar-paciente.component.scss'
 })

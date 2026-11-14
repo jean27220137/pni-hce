@@ -6,6 +6,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Collections;
 
 @Component
 public class MpiClient {
@@ -22,7 +23,8 @@ public class MpiClient {
         return webClient.get()
             .uri(mpiBaseUrl + "/api/v1/mpi/pacientes/{dni}/establecimientos", dni)
             .retrieve()
-            .bodyToMono(MpiResponse.class);
+            .bodyToMono(MpiResponse.class)
+            .onErrorReturn(new MpiResponse(dni, Collections.emptyList(), "error"));
     }
 
     public record MpiResponse(String dni, List<EstablecimientoVinculo> establecimientos, String fuente) {}

@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="4 — Gateway :8080" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="gateway"/>
+    <option name="SPRING_BOOT_MAIN_CLASS" value="pe.edu.unsch.pnihce.gateway.GatewayApplication"/>
+    <option name="VM_PARAMETERS" value=""/>
+    <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$"/>
+    <option name="PROGRAM_PARAMETERS" value=""/>
+    <envs/>
+    <method v="2">
+      <option name="Make" enabled="true"/>
+    </method>
+  </configuration>
+</component>

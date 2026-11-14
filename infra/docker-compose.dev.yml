@@ -92,6 +92,29 @@ services:
       SPRING_DATASOURCE_PASSWORD: pnihce_dev
     depends_on:
       postgres: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8082/actuator/health || exit 1"]
+      interval: 10s
+      retries: 10
+
+  consent:
+    build:
+      context: ../services/consent
+      dockerfile: Dockerfile
+    image: pni-hce/consent:dev
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/pnihce
+      SPRING_DATASOURCE_USERNAME: pnihce
+      SPRING_DATASOURCE_PASSWORD: pnihce_dev
+    depends_on:
+      postgres: { condition: service_healthy }
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8083/actuator/health || exit 1"]
+      interval: 10s
+      retries: 10
 
   gateway:
     build:
@@ -102,8 +125,12 @@ services:
       - "8080:8080"
     environment:
       APP_MPI_BASE_URL: http://mpi:8081
+      APP_CONSENT_BASE_URL: http://consent:8083
+      APP_AUDIT_BASE_URL: http://audit:8082
     depends_on:
-      mpi: { condition: service_healthy }
+      mpi:     { condition: service_healthy }
+      consent: { condition: service_healthy }
+      audit:   { condition: service_healthy }
     healthcheck:
       test: ["CMD-SHELL", "curl -sf http://localhost:8080/actuator/health || exit 1"]
       interval: 10s

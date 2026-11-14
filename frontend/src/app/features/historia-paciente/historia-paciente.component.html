@@ -1,0 +1,65 @@
+<div class="historia-container">
+
+  @if (estado() === 'loading') {
+    <div class="centro-pantalla">
+      <p-progressspinner ariaLabel="Cargando historia..." />
+      <p>Consultando establecimientos...</p>
+    </div>
+  }
+
+  @if (estado() === 'forbidden') {
+    <p-message severity="warn">
+      El paciente no ha otorgado consentimiento para acceder a su historia clínica.
+    </p-message>
+  }
+
+  @if (estado() === 'error') {
+    <p-message severity="error">{{ errorMsg() }}</p-message>
+  }
+
+  @if (estado() === 'ok' && resultado()) {
+    <div class="historia-header">
+      <h2>Historia Clínica</h2>
+      <span class="dni-label">DNI: {{ resultado()!.dni }}</span>
+    </div>
+
+    @if (resultado()!.establecimientos.length === 0) {
+      <p-message severity="info">No se encontraron establecimientos vinculados.</p-message>
+    }
+
+    @for (est of resultado()!.establecimientos; track est.codigoRenipress) {
+      <p-panel [toggleable]="true" styleClass="mb-3">
+        <ng-template #header>
+          <div class="panel-titulo">
+            <span class="est-nombre">{{ est.nombre }}</span>
+            <p-tag [value]="est.tipo" [severity]="tipoSeverity[est.tipo]" />
+            @if (!est.disponible) {
+              <p-tag value="No disponible" severity="secondary" />
+            }
+          </div>
+        </ng-template>
+
+        @if (!est.disponible) {
+          <p class="no-disponible">No se pudo obtener información de este establecimiento.</p>
+        } @else {
+          <div class="fhir-detalle">
+            <p><strong>Código RENIPRESS:</strong> {{ est.codigoRenipress }}</p>
+            <p><strong>Sector:</strong> {{ est.sector }}</p>
+            <p><strong>Última atención:</strong> {{ est.ultimaAtencion }}</p>
+
+            @if (condicionesDeBundle(est).length > 0) {
+              <div class="condiciones">
+                <strong>Condiciones registradas:</strong>
+                <ul>
+                  @for (cond of condicionesDeBundle(est); track cond) {
+                    <li>{{ cond }}</li>
+                  }
+                </ul>
+              </div>
+            }
+          </div>
+        }
+      </p-panel>
+    }
+  }
+</div>

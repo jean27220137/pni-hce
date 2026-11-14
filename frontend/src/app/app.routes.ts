@@ -11,5 +11,15 @@ export const routes: Routes = [
     path: 'establecimientos',
     loadComponent: () =>
       import('./features/establecimientos/establecimientos.component').then(m => m.EstablecimientosComponent)
+  },
+  {
+    path: 'historia/:dni',
+    loadComponent: () =>
+      import('./features/historia-paciente/historia-paciente.component').then(m => m.HistoriaPacienteComponent)
+  },
+  {
+    path: 'consentimiento',
+    loadComponent: () =>
+      import('./features/registrar-consentimiento/registrar-consentimiento.component').then(m => m.RegistrarConsentimientoComponent)
   }
 ];
